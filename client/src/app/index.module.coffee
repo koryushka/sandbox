@@ -1,2 +1,2 @@
 #'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize','ngMessages', 'ngAria',
-angular.module 'sandbox', [ 'ngResource', 'ui.router', 'ngMaterial', 'toastr']
+angular.module 'sandbox', [ 'ngResource', 'ui.router', 'ngMaterial', 'toastr','ui.tinymce','ngSanitize']

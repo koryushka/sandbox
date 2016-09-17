@@ -1,15 +1,33 @@
 <div class = "container">
   <div ng-include="'app/components/navbar/navbar.html'")></div>
   <h1>Posts</h1>
-  <div ng-repeat="post in posts">
+  <div ng-repeat="post in posts | orderBy: '-created_at'">
     <md-card>
-     <md-card-content>
-       <h2>{{post.title}}</h2>
-       <p>{{post.body}}</p>
+     <md-card-content ng-show='editing'>
+       <h1>Update post</h1>
+       <form ng-submit="editing = false">
+         <div layout-gt-sm="row">
+           <md-input-container class="md-block" flex-gt-sm>
+             <label>Title</label>
+             <input ng-model="post.title">
+           </md-input-container>
+         </div>
+         <md-input-container class="md-block">
+           <label>Type your post here...</label>
+           <textarea ui-tinymce="tinymceOptions" ng-model="post.body"  rows="5" md-select-on-focus></textarea>
+         </md-input-container>
+         <md-button class = "md-raised md-primary" ng-click = 'updatePost(post);'type = 'submit'>Update post</md-button>
+         <!-- <button class="btn" ng-click = 'updatePost(post);' type="submit">Save</button> -->
+       </form>
      </md-card-content>
-     <md-card-footer>
+     <md-card-content ng-hide='editing'>
+       <h2>{{post.title}}</h2>
+       <p ng-bind-html = "post.body"></p>
+     </md-card-content>
+     <md-card-footer ng-hide='editing'>
        created at {{post.created_at}}
-       <md-button class="md-warn" ng-click="removePost(post);">Remove post</md-button>
+       <md-button class="md-warn" ng-click="removePost($index);">Remove post</md-button>
+       <md-button class="md-primary" ng-click="editing = true;">Edit post</md-button>
      </md-card-footer>
     </md-card>
   </div>
@@ -25,8 +43,8 @@
           </md-input-container>
         </div>
         <md-input-container class="md-block">
-          <label>Type your post here...</label>
-          <textarea ng-model="Item.body"  rows="5" md-select-on-focus></textarea>
+          <label>Type your post here..!!.</label>
+          <textarea ui-tinymce="tinymceOptions" ng-model="Item.body"  rows="5" md-select-on-focus></textarea>
         </md-input-container>
         <!-- <input type='submit' value = 'Add post'> -->
         <md-button class = "md-raised md-primary" ng-click="addPost(Item);">Add post</md-button>
