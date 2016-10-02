@@ -1,5 +1,5 @@
 angular.module 'sandbox'
-  .controller 'MainCtrl', ($timeout, webDevTec, toastr) ->
+  .controller 'MainCtrl', ($timeout, webDevTec, toastr, $location, $scope) ->
     'ngInject'
     vm = this
     activate = ->
@@ -9,6 +9,7 @@ angular.module 'sandbox'
         return
       ), 4000
       return
+    $scope.path = $location.path()
 
     showToastr = ->
       toastr.info 'Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>'

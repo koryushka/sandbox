@@ -1,0 +1,28 @@
+<div ng-include="'app/components/navbar/navbar.html'")></div>
+<div  class="col-md-6 col-md-offset-3">
+  <!--  ng-contorller = 'LoginCtrl'-->
+    <div ng-show = 'currentUser'>Welcome, {{currentUser.username}}</div>
+    <div ng-hide = 'currentUser'>
+      <h2>Login</h2>
+      <form name="form" ng-submit="login()" novalidate>
+          <md-content>
+            <div>
+              <md-input-container class = 'md-block'>
+                <label>Email</label>
+                <input type="email" name="username" class="form-control" ng-model="vm.username" required />
+              </md-input-container>
+            </div>
+            <div>
+              <md-input-container class = 'md-block'>
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" ng-model="vm.password" required />
+              </md-input-container>
+            </div>
+            <div class="form-group">
+                <button ng-disabled="vm.loading" class="btn btn-primary">Login</button>
+            </div>
+          </md-content>
+          <div ng-if="vm.error" class="alert alert-danger">{{vm.error}}</div>
+      </form>
+    </div>
+</div>

@@ -1,7 +1,10 @@
 class Api::PostsController < ApplicationController
   before_action :set_post, only: [:destroy, :update]
+  before_action only: [:update, :destroy, :create] do
+    doorkeeper_authorize!
+  end
   def index
-    @posts = Post.all
+    @posts = Post.all.order(created_at: :desc)
     render json: @posts
    end
 
@@ -16,7 +19,7 @@ class Api::PostsController < ApplicationController
 
    def destroy
      if @post.destroy
-       render nothing: true
+       head :ok
      end
    end
 

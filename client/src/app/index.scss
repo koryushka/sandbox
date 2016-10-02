@@ -48,6 +48,8 @@ html {
   font-family: 'Roboto Slab', serif;
 }
 
+
+
 [layout=row] {
   flex-direction: row;
 }
@@ -96,3 +98,7 @@ section.jumbotron {
  */
 // injector
 // endinjector
+
+.container {
+  padding-top: 200px;
+}

@@ -1,13 +1,49 @@
-<md-toolbar layout="row" layout-align="center center">
 
-  <md-button href="https://github.com/Swiip/generator-gulp-angular">Gulp Angular</md-button>
 
-  <section flex layout="row" layout-align="left center">
-    <md-button href="#" class="md-raised">Home</md-button>
-    <md-button href="#/posts" class="md-raised">Posts</md-button>
-    <md-button href="#" class="md-raised">Contact</md-button>
-  </section>
 
-  <md-button class="acme-navbar-text">Application was created {{ vm.relativeDate }}.</md-button>
 
-</md-toolbar>
+
+
+
+  <ul class="nav">
+  <li><a ng-class="{active:path == '/'}" href="#">Главная</a></li>
+  <li class="drop">О нас
+    <ul>
+      <li><a href="#">История</a></li>
+      <li><a href="#">Наш коллектив</a></li>
+      <li><a href="#">Наши достижения</a></li>
+      <li><a href="#">Вышестоящие органы</a></li>
+    </ul>
+  </li>
+
+  <li class="drop">Деятельность
+    <ul>
+      <li><a href="#">Нормативно-правовая база</a></li>
+      <li><a href="#">Образователные услуги</a></li>
+      <li><a href="#">Одно окно</a></li>
+    </ul>
+  </li>
+
+  <li class="drop">Родителям
+    <ul>
+      <li><a href="#">Оформление в УДО</a></li>
+      <li><a href="#">Полезная информация</a></li>
+      <li><a href="#">Попечительский совет</a></li>
+    </ul>
+  </li>
+
+  <li class="drop">Методичка
+    <ul>
+      <li><a href="#">Методическая работы</a></li>
+      <li><a href="#">Из опыта работы</a></li>
+      <li><a href="#">Планируемые мероприятия</a></li>
+    </ul>
+  </li>
+
+  <li><a href="#">Фотогалерея</a></li>
+  <li><a ng-class="{active:path == '/posts'}" href="#/posts">Новости</a></li>
+  <li ng-hide = 'currentUser' ><a href="#/login">Войти</a></li>
+  <li ng-show= 'currentUser' ng-click = 'logout()'>{{ currentUser.username }} logout </li>
+
+
+</ul>
