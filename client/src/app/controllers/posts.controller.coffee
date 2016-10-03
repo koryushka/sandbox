@@ -2,8 +2,21 @@
 #   .controller "PostsCtrl", ($scope, Post) ->
 # angular.module 'sandbox',[]
 angular.module 'sandbox'
-  .controller 'PostsCtrl', ($scope, Item, $sce, $localStorage, $http, $location) ->
+  .controller 'PostsCtrl', ($scope, Item, $sce, $localStorage, $http, $location, $anchorScroll) ->
     $scope.currentUser = $localStorage.currentUser
+
+    $scope.gotoAnchor = (x) ->
+      newHash = 'anchor' + x
+      if $location.hash() != newHash
+        # set the $location.hash to `newHash` and
+        # $anchorScroll will automatically scroll to it
+        $location.hash 'anchor' + x
+      else
+        # call $anchorScroll() explicitly,
+        # since $location.hash hasn't changed
+        $anchorScroll()
+      return
+
     if $scope.currentUser
       $http.defaults.headers.common['Authorization'] = 'Bearer ' + $scope.currentUser.token
     $scope.showForm = true
@@ -13,10 +26,10 @@ angular.module 'sandbox'
     $scope.showEditForm =(arg) ->
       $scope.showForm = arg
 
-    $scope.posts = Item.query()
+    $scope.posts = Item.query(scope: $scope.path.slice(1))
 
-    $scope.addPost =(post) ->
-      item = Item.save post
+    $scope.addPost =(post, scope) ->
+      item = Item.save(post, scope: scope)
       if item
         $scope.posts.unshift(item)
         $scope.Item = {}

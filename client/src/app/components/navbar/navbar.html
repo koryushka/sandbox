@@ -7,7 +7,7 @@
 
   <ul class="nav">
   <li><a ng-class="{active:path == '/'}" href="#">Главная</a></li>
-  <li class="drop">О нас
+  <li class="drop"><a ng-class="{active:path == '/about'}" href = "#/about">О нас</a>
     <ul>
       <li><a href="#">История</a></li>
       <li><a href="#">Наш коллектив</a></li>
@@ -16,23 +16,23 @@
     </ul>
   </li>
 
-  <li class="drop">Деятельность
+  <li class="drop"><a ng-class="{active:path == '/activity'}" href = "#/activity">Деятельность</a>
     <ul>
       <li><a href="#">Нормативно-правовая база</a></li>
       <li><a href="#">Образователные услуги</a></li>
-      <li><a href="#">Одно окно</a></li>
+      <li><a href="#/activity" ng-click = 'gotoAnchor($index)'>Одно окно</a></li>
     </ul>
   </li>
 
-  <li class="drop">Родителям
+  <li class="drop"><a ng-class="{active:path == '/for_parents'}" href = "#/for_parents">Родителям</a>
     <ul>
       <li><a href="#">Оформление в УДО</a></li>
       <li><a href="#">Полезная информация</a></li>
-      <li><a href="#">Попечительский совет</a></li>
+      <li><a href="#/for_parents" ng-click = 'gotoAnchor($index)'>Попечительский совет</a></li>
     </ul>
   </li>
 
-  <li class="drop">Методичка
+  <li class="drop"><a ng-class="{active:path == '/method'}" href = "#/method">Методичка</a>
     <ul>
       <li><a href="#">Методическая работы</a></li>
       <li><a href="#">Из опыта работы</a></li>
@@ -40,7 +40,7 @@
     </ul>
   </li>
 
-  <li><a href="#">Фотогалерея</a></li>
+  <li><a ng-class="{active:path == '/photos'}" href = "#/photos">Фотогаллерея</a></li>
   <li><a ng-class="{active:path == '/posts'}" href="#/posts">Новости</a></li>
   <li ng-hide = 'currentUser' ><a href="#/login">Войти</a></li>
   <li ng-show= 'currentUser' ng-click = 'logout()'>{{ currentUser.username }} logout </li>

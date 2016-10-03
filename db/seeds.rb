@@ -13,7 +13,7 @@ User.create(email: 'karetnikov.kirill@gmail.com', password: 'password')
 User.connection.execute(update_sequence_sql.gsub('{{TABLE}}', 'users'))
 options = {
   main: "Главная", about: "О нас", activity: "Деятельность", for_parents: "Родителям",
-  method: "Методичка", photos: "Фотогаллерея", news: "Новости", login: "Вход"}
+  method: "Методичка", photos: "Фотогаллерея", posts: "Новости", login: "Вход"}
 options.keys.each do |post_type|
   pt = PostType.create(name: post_type, human_name: options[post_type])
   pt.posts.create([

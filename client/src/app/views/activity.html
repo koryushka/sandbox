@@ -1,6 +1,6 @@
 <div ng-include="'app/components/navbar/navbar.html'")></div>
 <div class = "container">
-  <h1>Новости</h1>
+  <h1>Деятельность</h1>
   <div ng-repeat="post in posts">
     <md-card>
      <md-card-content ng-show='editing && currentUser'>
@@ -24,7 +24,6 @@
      <md-card-content ng-hide='editing'>
        <h2>{{post.title}}</h2>
        <!-- <p ng-bind-html = "post.body">{{post.body}}</p> -->
-       <div id="anchor{{$index}}" class="anchor"></div>
        <p ng-bind-html = "codeToHtml(post.body)"></p>
 
      </md-card-content>
@@ -53,7 +52,7 @@
           <textarea ui-tinymce="tinymceOptions" ng-model="Item.body"  rows="5" md-select-on-focus></textarea>
         </md-input-container>
         <!-- <input type='submit' value = 'Add post'> -->
-        <md-button class = "md-raised md-primary" ng-click="addPost(Item, 'posts');">Add post</md-button>
+        <md-button class = "md-raised md-primary" ng-click="addPost(Item, 'activity');">Add post</md-button>
       </form>
     </div>
   </md-content>

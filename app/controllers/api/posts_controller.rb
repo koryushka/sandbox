@@ -4,12 +4,14 @@ class Api::PostsController < ApplicationController
     doorkeeper_authorize!
   end
   def index
-    @posts = Post.all.order(created_at: :desc)
+    @posts  = Post.eager_load(:post_type).where(post_types: {name: params[:scope]}).order(created_at: :desc)
     render json: @posts
    end
 
    def create
-     @post = Post.new(post_params)
+     post_type = PostType.find_by(name: params[:scope])
+       p post_type
+     @post = Post.new(post_params.merge(post_type_id: post_type.id))
      if @post.save
        render json: @post
      else
