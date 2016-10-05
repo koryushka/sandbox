@@ -5,12 +5,12 @@
 angular.module "sandbox"
   .config ($stateProvider, $urlRouterProvider) ->
     $stateProvider
-      .state 'home',
-        url: '/',
+      .state 'main',
+        url: '/main',
         templateUrl: 'app/views/main.html',
-        controller: 'MainCtrl',
+        controller: 'PostsCtrl',
         controllerAs: 'main',
-        activetab: 'home',
+        activetab: 'main',
       .state "posts",
         url: "/posts",
         templateUrl: "app/views/posts.html",
@@ -25,7 +25,7 @@ angular.module "sandbox"
         url: '/photos',
         templateUrl: "app/views/photos.html",
         controller: "PostsCtrl",
-        activetab: 'photos',        
+        activetab: 'photos',
       .state "activity",
         url: '/activity',
         templateUrl: "app/views/activity.html",

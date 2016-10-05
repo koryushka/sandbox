@@ -10,7 +10,6 @@ class Api::PostsController < ApplicationController
 
    def create
      post_type = PostType.find_by(name: params[:scope])
-       p post_type
      @post = Post.new(post_params.merge(post_type_id: post_type.id))
      if @post.save
        render json: @post

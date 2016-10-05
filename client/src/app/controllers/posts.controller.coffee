@@ -5,18 +5,6 @@ angular.module 'sandbox'
   .controller 'PostsCtrl', ($scope, Item, $sce, $localStorage, $http, $location, $anchorScroll) ->
     $scope.currentUser = $localStorage.currentUser
 
-    $scope.gotoAnchor = (x) ->
-      newHash = 'anchor' + x
-      if $location.hash() != newHash
-        # set the $location.hash to `newHash` and
-        # $anchorScroll will automatically scroll to it
-        $location.hash 'anchor' + x
-      else
-        # call $anchorScroll() explicitly,
-        # since $location.hash hasn't changed
-        $anchorScroll()
-      return
-
     if $scope.currentUser
       $http.defaults.headers.common['Authorization'] = 'Bearer ' + $scope.currentUser.token
     $scope.showForm = true
