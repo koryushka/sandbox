@@ -100,5 +100,30 @@ section.jumbotron {
 // endinjector
 
 .container {
-  padding-top: 200px;
+  padding-top: 70px;
+  width: 100%
+}
+
+
+.image_wrapper{
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 414px;
+  img {
+    width: 100%;
+    margin-top: -314px;
+    filter: brightness(40%);
+    // position: absolute;
+  }
+}
+.motto{
+  position: absolute;
+  top: 200px;
+  left: 30%;
+  color: #fff;
+}
+
+.happy{
+  color: yellow;
 }

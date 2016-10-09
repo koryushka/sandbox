@@ -1,61 +1,84 @@
 <div ng-include="'app/components/navbar/navbar.html'")></div>
-<div class = "container">
-  <h1>Главная</h1>
-  <div ng-repeat="post in posts">
-    <md-card>
-     <md-card-content ng-show='editing && currentUser'>
-       <h1>Update post</h1>
-       <form ng-submit="editing = false">
-         <div layout-gt-sm="row">
-           <md-input-container class="md-block" flex-gt-sm>
-             <label>Title</label>
-             <input ng-model="post.title">
-           </md-input-container>
-         </div>
-         <md-input-container class="md-block">
-           <label>Type your post here...</label>
-           <textarea ui-tinymce="tinymceOptions" ng-model="post.body"  rows="5" md-select-on-focus></textarea>
-         </md-input-container>
-         <md-button class = "md-raised md-primary" ng-click = 'updatePost(post)'type = 'submit'>Update post</md-button>
-         <md-button class = "md-raised" ng-click = 'editing = false;showEditForm(true);'>Cancel</md-button>
-         <!-- <button class="btn" ng-click = 'updatePost(post);' type="submit">Save</button> -->
-       </form>
-     </md-card-content>
-     <md-card-content ng-hide='editing'>
-       <h2>{{post.title}}</h2>
-       <!-- <p ng-bind-html = "post.body">{{post.body}}</p> -->
-       <p ng-bind-html = "codeToHtml(post.body)"></p>
+<div class = "container" ng-cloak>
+  <div class = 'image_wrapper'>
+    <img src = 'image.jpg'></img>
+    <span class = 'motto'>
+      <h1>Лучший способ сделать ребенка хорошим -
+        <br>
+        сделать его
+        <span class = 'happy'>счастливым</span>
+      </h1>
+    <span>
+  </div>
+  <!-- <div ng-repeat="post in posts"> -->
+    <md-content class="md-padding" layout-xs="column" layout="row">
+      <div layout="row">
+        <div ng-repeat="post in posts">
+          <md-card>
+             <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
+             <md-card-title>
+               <md-card-title-text>
+                 <span class="md-headline">{{post.title}}</span>
+                 <hr style = 'width: 500px'>
+               </md-card-title-text>
+             </md-card-title>
+             <md-card-actions layout="row" layout-align="center">
+             </md-card-actions>
+             <md-card-content>
+               {{ post.body | limitTo : 500}}
+             </md-card-content>
+             <md-card-actions layout="row" layout-align="center">
+               <md-button>Посмотреть</md-button>
+             </md-card-actions>
+             <md-card-footer ng-hide='editing'>
+               <span ng-show = 'currentUser'>
+                 <md-button class="md-warn" ng-click="showConfirm($event, $index)">Удалить комнату</md-button>
+                 <md-button class="md-primary" ng-click="editing = true;showEditForm(false);">Редактировать</md-button>
+               </span>
+             </md-card-footer>
+           </md-card>
+           <md-card>
+            <md-card-content ng-show='editing && currentUser'>
+              <h1>Update post</h1>
+              <form ng-submit="editing = false">
+                <div layout-gt-sm="row">
+                  <md-input-container class="md-block" flex-gt-sm>
+                    <label>Title</label>
+                    <input ng-model="post.title">
+                  </md-input-container>
+                </div>
+                <md-input-container class="md-block">
+                  <label>Type your post here...</label>
+                  <textarea ng-model="post.body"  rows="5" md-select-on-focus></textarea>
+                </md-input-container>
+                <md-button class = "md-raised md-primary" ng-click = 'updatePost(post)'type = 'submit'>Обновить</md-button>
+                <md-button class = "md-raised" ng-click = 'editing = false;showEditForm(true);'>Отмена</md-button>
+                <!-- <button class="btn" ng-click = 'updatePost(post);' type="submit">Save</button> -->
+              </form>
+            </md-card-content>
 
-     </md-card-content>
-     <md-card-footer ng-hide='editing'>
-       created at {{post.created_at}}
-       <span ng-show = 'currentUser'>
-         <md-button class="md-warn" ng-click="removePost($index);">Remove post</md-button>
-         <md-button class="md-primary" ng-click="editing = true;showEditForm(false);">Edit post</md-button>
-       </span>
-     </md-card-footer>
-    </md-card>
+           </md-card>
+         </div>
+      </div>
+    </md-content>
   </div>
 
   <md-content ng-show='showForm && currentUser' layout-padding>
     <div>
-      <h1>Create post</h1>
+      <h1>Добавить комнату</h1>
       <form ng-submit="addPost()" name="postForm">
         <div layout-gt-sm="row">
           <md-input-container class="md-block" flex-gt-sm>
-            <label>Title</label>
+            <label>Название</label>
             <input ng-model="Item.title">
           </md-input-container>
         </div>
         <md-input-container class="md-block">
-          <label>Type your post here..!!.</label>
-          <textarea ui-tinymce="tinymceOptions" ng-model="Item.body"  rows="5" md-select-on-focus></textarea>
+          <label>Описание</label>
+          <textarea ng-model="Item.body"  rows="5" md-select-on-focus></textarea>
         </md-input-container>
         <!-- <input type='submit' value = 'Add post'> -->
-        <md-button class = "md-raised md-primary" ng-click="addPost(Item, 'for_parents');">Add post</md-button>
+        <md-button class = "md-raised md-primary" ng-click="addPost(Item, 'main');">Добавить</md-button>
       </form>
     </div>
   </md-content>
-
-
-</div>
