@@ -2,20 +2,62 @@
 #   .controller "PostsCtrl", ($scope, Post) ->
 # angular.module 'sandbox',[]
 angular.module 'sandbox'
-  .controller 'PostsCtrl', ($scope, Item, $sce, $localStorage, $http, $location, $mdDialog) ->
+  .controller 'PostsCtrl', ($scope, Item, $sce, $localStorage, $http, $location, $mdDialog, AuthenticationService) ->
     $scope.currentUser = $localStorage.currentUser
+    $scope.showRoom = false
     $scope.imagePath = 'https://material.angularjs.org/latest/img/washedout.png'
+    $scope.currentPage = 0
+    $scope.itemsPerPage = 2
+
+    $scope.refreshToken = ->
+      AuthenticationService.RefreshToken $scope.currentUser.refresh_token,(result)->
+        if result
+          console.debug result
+          console.debug('RefreshToken Succeed')
+          # $scope.currentUser = result
+          $scope.currentUser = $localStorage.currentUser
+          $location.path '/main'
+        else
+          console.debug('RefreshToken Failed')
+        return
+      return
+
     if $scope.currentUser
+      if new Date()/1000 - $scope.currentUser.logged_in > $scope.currentUser.expires_in
+        console.debug('Expired')
+        $scope.refreshToken()
       $http.defaults.headers.common['Authorization'] = 'Bearer ' + $scope.currentUser.token
     $scope.showForm = true
 
-    $scope.path = $location.path()
+
+
+    $scope.firstPage = ->
+      $scope.currentPage == 0
+
+    $scope.lastPage = ->
+      lastPageNum = Math.ceil($scope.posts.length / $scope.itemsPerPage - 1)
+      $scope.currentPage == lastPageNum
+
+    $scope.numberOfPages = ->
+      Math.ceil $scope.posts.length / $scope.itemsPerPage
+
+    $scope.startingItem = ->
+      $scope.currentPage * $scope.itemsPerPage
+
+    $scope.pageBack = ->
+      $scope.currentPage = $scope.currentPage - 1
+      return
+
+    $scope.pageForward = ->
+      $scope.currentPage = $scope.currentPage + 1
+      return
+
+    path = $location.path()
 
     $scope.showEditForm =(arg) ->
       $scope.showForm = arg
 
-    $scope.posts = Item.query(scope: $scope.path.slice(1))
-
+    $scope.posts = Item.query(scope: path.slice(1))
     $scope.addPost =(post, scope) ->
       item = Item.save(post, scope: scope)
       if item
@@ -34,6 +76,14 @@ angular.module 'sandbox'
     $scope.updatePost =(post) ->
       $scope.showEditForm(true)
       return post.$update()
+
+    $scope.showPost =(post) ->
+      console.debug(post)
+      $scope.showRoom = true
+      $scope.room = post
+
+    $scope.hideRoom =->
+      $scope.showRoom = false
 
     $scope.getContent = ->
       console.log 'Editor content:', $scope.tinymceModel

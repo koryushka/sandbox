@@ -39,6 +39,6 @@ class Api::PostsController < ApplicationController
    end
 
    def post_params
-     params.permit(:title, :body)
+     params.permit(:title, :body, :banner)
    end
 end

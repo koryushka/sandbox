@@ -1,7 +1,7 @@
 <div ng-include="'app/components/navbar/navbar.html'")></div>
 <div class = "container">
   <h1>Новости</h1>
-  <div ng-repeat="post in posts">
+  <div ng-repeat="post in posts | startFrom: startingItem() | limitTo: itemsPerPage">
     <md-card>
      <md-card-content ng-show='editing && currentUser'>
        <h1>Update post</h1>
@@ -38,6 +38,12 @@
     </md-card>
   </div>
 
+  <div id="pagination" class="row">
+    <button ng-disabled="firstPage()" ng-click="pageBack()">Назад</button>
+    <span>{{currentPage+1}} из {{numberOfPages()}}</span>
+    <button ng-disabled="lastPage()" ng-click="pageForward()">Вперед</button>
+  </div>
+
   <md-content ng-show='showForm && currentUser' layout-padding>
     <div>
       <h1>Create post</h1>
@@ -57,6 +63,4 @@
       </form>
     </div>
   </md-content>
-
-
 </div>

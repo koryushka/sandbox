@@ -100,10 +100,9 @@ section.jumbotron {
 // endinjector
 
 .container {
-  padding-top: 70px;
+  padding-top: 50px;
   width: 100%
 }
-
 
 .image_wrapper{
   position: relative;
@@ -112,18 +111,142 @@ section.jumbotron {
   height: 414px;
   img {
     width: 100%;
-    margin-top: -314px;
+    top: -50%;
+    bottom: -50%;
     filter: brightness(40%);
-    // position: absolute;
+    position: absolute;
   }
 }
 .motto{
   position: absolute;
-  top: 200px;
-  left: 30%;
+  top: 30%;
+  left: 25%;
   color: #fff;
 }
 
 .happy{
   color: yellow;
+}
+$adavntage_color: #165578;
+$custom_color: rgb(157, 153, 143);
+$environment_color: rgb(208, 203, 79);
+.advantages{
+  height: 100px;
+  h1 {
+    position: absolute;
+    margin-top : 5px;
+    color: $adavntage_color;
+  }
+  h1:before{
+    content: "";
+    position: absolute;
+    width: 27%;
+    height: 5px;
+    bottom: 0;
+    border-bottom: 3px solid $adavntage_color;
+  }
+}
+
+.environment {
+  height: 50px;
+  h1 {
+    position: absolute;
+    margin-top : 5px;
+    color: $environment_color;
+  }
+  h1:before{
+    content: "";
+    position: absolute;
+    width: 27%;
+    height: 5px;
+    bottom: 0;
+    border-bottom: 3px solid $environment_color;
+  }
+}
+
+.top_advantages{
+  height: 70px;
+  padding-left: 100px;
+}
+
+.advantage_container{
+  margin: 0 auto;
+  width: 90%;
+  margin-top: -40px;
+  z-index: 10;
+  position: relative;
+  background-color: #fff;
+  border-radius: 40px 40px 0px 0px;
+}
+
+.environment_container{
+  margin: 0 auto;
+  width: 90%;
+  // padding-left: 170px;
+  // margin-top: -40px;
+  z-index: 10;
+  position: relative;
+  background-color: #fff;
+}
+
+.advantage_text {
+  font-size: 12pt;
+  padding-left: 20px;
+  height: 100%;
+  max-width: 200px;
+}
+.advantage{
+  float:left;
+  img{
+    height: 60px;
+  }
+}
+
+.rooms{
+  width: 90%;
+  margin: 0 auto;
+}
+
+.leave_message{
+  width: 100%;
+  height: 180px;
+  background-color: $custom_color;
+  margin-bottom: 5px;
+  .btn{
+    color: red;
+  }
+}
+
+md-card{
+  background-color: #99b7c1;
+}
+
+.banner{
+  max-height: 300px;
+  overflow: hidden;
+  max-width: 800px;
+}
+
+.banner img{
+  // min-height: 300px;
+  // min-width: 100%;
+  // max-width: auto;
+  min-height: 300px;
+  height: 120%;
+  width: auto;
+  margin: 0 auto;
+  // -webkit-transition: margin-top .5s ease-out;  /* Saf3.2+, Chrome */
+  // -moz-transition: margin-top .5s ease-out;  /* FF4+ */
+  // -ms-transition: margin-top .5s ease-out;  /* IE10? */
+  // -o-transition: margin-top .5s ease-out;  /* Opera 10.5+ */
+  // transition: margin-top .5s ease-out;
+}
+
+@media only screen and (min-width: 1160px) {
+    .banner { max-width: 1000px; }
+}
+
+.back_button{
+  position: fixed;
+  bottom: 5px;
 }

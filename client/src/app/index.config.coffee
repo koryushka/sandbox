@@ -1,4 +1,11 @@
 angular.module 'sandbox'
+  .filter 'startFrom', ->
+    (input, start) ->
+      if input
+        start = +start
+        # parse to int
+        return input.slice(start)
+      []
   .config ($logProvider, toastrConfig) ->
     # 'ngInject'
     # Enable log
