@@ -27,6 +27,7 @@ module Sandbox
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.active_record.belongs_to_required_by_default = true
+    # config.autoload_paths << Rails.root.join('app', 'uploaders')
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do

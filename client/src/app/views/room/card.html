@@ -1,0 +1,44 @@
+<div flex ng-hide='editing'>
+  <md-button ng-show = 'currentUser' class="md-warn delete_button" ng-click="showConfirm($event, $index)">удалить</md-button>
+  <div ng-repeat = 'banner in post.images | filter: {is_banner: true}'class="md-card-image" alt="Washed Out">
+    <img ng-src="{{banner.link}}" class="md-card-image" alt="Washed Out">
+  </div>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">{{post.title}}</span>
+
+
+      <!-- <hr style = 'width: 500px'> -->
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-actions layout="row" layout-align="center"></md-card-actions>
+  <md-card-content>
+    <!-- {{ post.body | limitTo : 500}} -->
+    <p ng-bind-html = "codeToHtml(post.body | limitTo: 500)"></p>
+  </md-card-content>
+
+  <md-card-actions layout="row" layout-align="center">
+    <md-button ng-click = 'showPost(post)'>Посмотреть</md-button>
+  </md-card-actions>
+  <!-- <md-card-footer ng-hide='editing'> -->
+      <!-- <md-button class="md-primary" ng-click="editing = true;showEditForm(false);">Редактировать</md-button> -->
+      <!-- <md-button class="md-primary" ng-click="setEditing(true);showEditForm(false);">Редактировать</md-button> -->
+  <!-- </md-card-footer> -->
+</div>
+
+<!-- <div ng-show='editing && currentUser'>
+  <h1>Update post</h1>
+  <form ng-submit="editing = false">
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Title</label>
+        <input ng-model="post.title">
+      </md-input-container>
+    </div>
+    <md-input-container class="md-block">
+      <textarea ckeditor="{filebrowserUploadUrl: 'http://localhost:9000/api/posts/' + post.id + '/images'}" ng-model="post.body"></textarea>
+    </md-input-container>
+    <md-button class = "md-raised md-primary" ng-click = 'updatePost(post)' type = 'submit'>Обновить</md-button>
+    <md-button class = "md-raised" ng-click = 'editing = false;showEditForm(true);'>Отмена</md-button>
+  </form>
+</div> -->

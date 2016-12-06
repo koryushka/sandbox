@@ -30,6 +30,11 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'devise'
 gem 'doorkeeper'
+# gem 'byebug'
+gem 'fog', '~> 1.38'
+gem 'carrierwave'#, '>= 1.0.0.rc', '< 2.0'
+gem "rmagick"
+gem 'carrierwave-dropbox'#, '~> 1.2', '>= 1.2.1'
 
 group :development do
   gem 'listen', '~> 3.0.5'
@@ -37,6 +42,10 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
+
+gem 'active_model_serializers', '~> 0.10.0'
+
+gem 'dotenv-rails', :groups => [:development, :test]
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

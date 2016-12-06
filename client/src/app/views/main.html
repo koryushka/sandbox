@@ -1,7 +1,5 @@
 <div ng-include="'app/components/navbar/navbar.html'")></div>
   <div class = "container" ng-cloak>
-
-
     <div ng-hide = 'showRoom'>
       <div hide-xs hide-sm class = 'image_wrapper'>
         <img src = 'image.jpg'></img>
@@ -51,56 +49,12 @@
         </div>
       </div>
       <md-content class = 'rooms'>
-        <div layout-sm="column" layout="row">
-          <md-card ng-repeat="post in posts" flex>
-            <div flex ng-hide='editing'>
-              <div class = 'banner'>
-                <img ng-src="{{post.banner}}" class="md-card-image" alt="Washed Out">
-              </div>
-              <md-card-title>
-                <md-card-title-text>
-                  <span class="md-headline">{{post.title}}</span>
-                  <!-- <hr style = 'width: 500px'> -->
-                </md-card-title-text>
-              </md-card-title>
-              <md-card-actions layout="row" layout-align="center"></md-card-actions>
-              <md-card-content>
-                <!-- {{ post.body | limitTo : 500}} -->
-                <p ng-bind-html = "codeToHtml(post.body | limitTo: 500)"></p>
-              </md-card-content>
-              <md-card-actions layout="row" layout-align="center">
-                <md-button ng-click = 'showPost(post)'>Посмотреть</md-button>
-              </md-card-actions>
-              <md-card-footer ng-hide='editing'>
-                <span ng-show = 'currentUser'>
-                  <md-button class="md-warn" ng-click="showConfirm($event, $index)">Удалить комнату</md-button>
-                  <md-button class="md-primary" ng-click="editing = true;showEditForm(false);">Редактировать</md-button>
-                </span>
-              </md-card-footer>
-            </div>
-
-            <div ng-show='editing && currentUser'>
-              <h1>Update post</h1>
-              <form ng-submit="editing = false">
-                <div layout-gt-sm="row">
-                  <md-input-container class="md-block" flex-gt-sm>
-                    <label>Title</label>
-                    <input ng-model="post.title">
-                  </md-input-container>
-                </div>
-                <md-input-container class="md-block" flex-gt-sm>
-                  <label>Banner</label>
-                  <input ng-model="post.banner">
-                </md-input-container>
-                <md-input-container class="md-block">
-                  <label>Type your post here...</label>
-                  <textarea ui-tinymce="tinymceOptions" ng-model="post.body"  rows="5" md-select-on-focus></textarea>
-                </md-input-container>
-                <md-button class = "md-raised md-primary" ng-click = 'updatePost(post)'type = 'submit'>Обновить</md-button>
-                <md-button class = "md-raised" ng-click = 'editing = false;showEditForm(true);'>Отмена</md-button>
-              </form>
-            </div>
-          </md-card>
+        <div >
+          <div layout-sm="column" layout="row" class="" ng-repeat="posts in chunkedData">
+            <md-card ng-repeat="post in posts" flex>
+              <div ng-include="'app/views/room/card.html'")></div>
+            </md-card>
+          </div>
         </div>
       </md-content>
 
@@ -114,28 +68,51 @@
                 <input ng-model="Item.title">
               </md-input-container>
             </div>
-            <md-input-container class="md-block" flex-gt-sm>
-              <label>Banner</label>
-              <input ng-model="Item.banner">
-            </md-input-container>
             <md-input-container class="md-block">
               <label>Описание</label>
-              <textarea ng-model="Item.body"  rows="5" md-select-on-focus></textarea>
+              <!-- <textarea  ui-tinymce="tinymceOptions" ng-model="Item.body"  rows="5" md-select-on-focus></textarea> -->
+              <textarea ckeditor="editorOptions" ng-model="Item.body"></textarea>
+
             </md-input-container>
+            <!-- <md-input-container class="md-block">
+              <input name="image" type="file" id="upload" style = 'display:none;' onchange="">
+            </md-input-container> -->
             <md-button class = "md-raised md-primary" ng-click="addPost(Item, 'main');">Добавить</md-button>
           </form>
         </div>
       </md-content>
     </div>
-
-
-
+  </div>
 </div>
 <div ng-show = 'showRoom'>
-  <md-button class = "md-raised md-primary back_button" ng-click = 'hideRoom();'>Назад</md-button>
-  <div class = 'banner'>
-    <img  src = {{room.banner}}></img>
+  <div ng-show='editing && currentUser'>
+    <!-- <div ng-include="'app/views/room/edit.html'")></div> -->
+    <h1>Update post</h1>
+    <form ng-submit="editing = false" >
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Title</label>
+          <input ng-model="room.title">
+        </md-input-container>
+      </div>
+      <md-input-container class="md-block">
+        <textarea ckeditor ng-model="room.body" rows = '200'></textarea>
+      </md-input-container>
+      <md-button class = "md-raised md-primary" ng-click = 'updatePost(room)' type = 'submit'>Обновить</md-button>
+      <md-button class = "md-raised" ng-click = 'editing = false;showEditForm(true);'>Отмена</md-button>
+    </form>
+
+    Links to images
+    <div ng-repeat = 'image in room.images'>
+      <div ng-click='setAsBanner(image);' ng-class = "{is_banner: image.is_banner == true}">
+        <!-- {{image.is_banner == true}} -->
+        <img class='preview' src='{{image.link}}'>
+        <span>{{image.link}}<span>
+      </div>
+    </div>
+
   </div>
-  <div>{{room.title}}<div>
-  <p ng-bind-html = "codeToHtml(room.body)"></p>
+  <div ng-hide='editing'>
+    <div ng-include="'app/views/room/show.html'")></div>
+  </div>
 </div>

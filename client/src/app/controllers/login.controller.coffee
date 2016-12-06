@@ -11,7 +11,7 @@ do ->
     $scope.login = ->
       AuthenticationService.Login $scope.vm.username, $scope.vm.password, (result) ->
         if result
-          console.debug result
+          # console.debug result
           # $scope.currentUser = result
           $scope.currentUser = $localStorage.currentUser
           $location.path '/login'

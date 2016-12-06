@@ -2,12 +2,13 @@
 #   .controller "PostsCtrl", ($scope, Post) ->
 # angular.module 'sandbox',[]
 angular.module 'sandbox'
-  .controller 'PostsCtrl', ($scope, Item, $sce, $localStorage, $http, $location, $mdDialog, AuthenticationService) ->
+  .controller 'PostsCtrl', ($scope, Item, Image, $sce, $localStorage, $http, $location, $mdDialog, AuthenticationService, FileUploader) ->
     $scope.currentUser = $localStorage.currentUser
     $scope.showRoom = false
     $scope.imagePath = 'https://material.angularjs.org/latest/img/washedout.png'
     $scope.currentPage = 0
     $scope.itemsPerPage = 2
+    # $scope.uploader = new FileUploader({url: 'http://localhost:3000/images'})
 
     $scope.refreshToken = ->
       AuthenticationService.RefreshToken $scope.currentUser.refresh_token,(result)->
@@ -57,17 +58,36 @@ angular.module 'sandbox'
     $scope.showEditForm =(arg) ->
       $scope.showForm = arg
 
-    $scope.posts = Item.query(scope: path.slice(1))
+    # $scope.getPosts =()->
+    #   posts = Item.query(scope: path.slice(1)).$promise.then (response) ->
+    #   # $scope.posts= response.posts
+    #   #   console.debug(response)
+    #
+    #     $scope.posts = response.posts
+    #     return
+    #   return
+    # $scope.posts = $scope.getPosts()
+
+    # $scope.getPosts()
+
+    Item.query(scope: path.slice(1)).$promise.then (data) ->
+      $scope.posts = data.posts
+      $scope.chunkedData = chunk($scope.posts, 3)
+      return
+
     $scope.addPost =(post, scope) ->
-      item = Item.save(post, scope: scope)
+      item = Item.save(post: post, scope: scope)
+      console.debug item
       if item
-        $scope.posts.unshift(item)
+        $scope.posts.unshift(item.post)
+        $scope.chunkedData = chunk($scope.posts, 3)
         $scope.Item = {}
 
     $scope.removePost =(idx) ->
       post_to_delete = $scope.posts[idx]
       Item.delete { id: post_to_delete.id }, (success) ->
         $scope.posts.splice idx, 1
+        $scope.chunkedData = chunk($scope.posts, 3)
         return
 
     $scope.codeToHtml =(code) ->
@@ -75,71 +95,64 @@ angular.module 'sandbox'
 
     $scope.updatePost =(post) ->
       $scope.showEditForm(true)
-      return post.$update()
+      console.debug post
+      return Item.update({id: post.id, post: {title: post.title, body: post.body}})
+
+
+    $scope.setEditing =(arg)->
+      $scope.editing = arg
 
     $scope.showPost =(post) ->
-      console.debug(post)
       $scope.showRoom = true
       $scope.room = post
+      id = post.id
+      $scope.url = "http://localhost:9000/api/posts/" + id + "/images"
+      CKEDITOR.config.filebrowserUploadUrl = $scope.url# + $scope.post.id
 
     $scope.hideRoom =->
       $scope.showRoom = false
 
-    $scope.getContent = ->
-      console.log 'Editor content:', $scope.tinymceModel
-      return
+    $scope.setAsBanner =(image)->
+      console.debug image
+      return Image.update({id: image.id, image: {is_banner: true}})
 
-    $scope.setContent = ->
-      $scope.tinymceModel = 'Time: ' + new Date
-      return
+    # $scope.getContent = ->
+    #   console.log 'Editor content:', $scope.tinymceModel
+    #   return
+
+    # $scope.setContent = ->
+    #   $scope.tinymceModel = 'Time: ' + new Date
+    #   return
     $scope.hideCreationForm =() ->
       $scope.showForm = false
+
+    # $scope.deleteImage =(post, idx)->
+    #   image_to_delete = post.images[idx]
+    #   Image.delete { id: image_to_delete.id }, (success) ->
+    #     post.images.splice idx, 1
+    #     return
+
+    # $scope.makeBanner =(post, image)->
+
 
     chunk = (arr, size) ->
       newArr = []
       i = 0
+      console.debug arr
       while i < arr.length
-        newArr.push(arr.slice(i, i + size))
+        newArr.push arr.slice(i, i + size)
         i += size
       newArr
 
-    $scope.chunkedData = chunk($scope.posts, 3)
 
-    $scope.tinymceOptions =
-      # plugins: 'link image code'
-      # toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify '+
-      #   '| bullist numlist outdent indent | link image | print preview media | forecolor backcolor emoticons'
 
-      height: 500,
-      theme: 'modern',
-      plugins: [
-        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-        'searchreplace wordcount visualblocks visualchars code fullscreen',
-        'insertdatetime media nonbreaking save table contextmenu directionality',
-        'emoticons template paste textcolor colorpicker textpattern imagetools '
-      ],
-      toolbar1: '"sizeselect | bold italic | fontselect |  fontsizeselect | '+
-        'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify'+
-        ' | bullist numlist outdent indent | link image',
-      toolbar2: 'print preview media | forecolor backcolor emoticons',
-      fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
-      image_advtab: true,
-      templates: [
-        { title: 'Test template 1', content: 'Test 1' },
-        { title: 'Test template 2', content: 'Test 2' }
-      ],
-      content_css: [
-        '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-        '//www.tinymce.com/css/codepen.min.css'
-      ]
-    # return
-    # $scope.post = Item.get({ id: $scope.id }, ->
-    #   # console.log post
-    #   return
-    # )
-    # get() returns a single entry
+    $scope.editorOptions = {
+      language: 'ru',
+      uiColor: '#000000'
+    }
 
-    # #query() returns all the entries
+    # CKEDITOR.config.filebrowserUploadUrl = 'http://localhost:9000/api/posts/'+ $scope.post_id + '/images' # + $scope.post.id
+
     $scope.post = new Item
 
     $scope.showConfirm = (ev, idx) ->

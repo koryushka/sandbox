@@ -1,0 +1,6 @@
+<md-button ng-show='currentUser' class="md-primary edit_button" ng-click="setEditing(true);">Редактировать</md-button>
+<hr>
+<h1>{{room.title}}</h1>
+<hr>
+<p ng-bind-html = "codeToHtml(room.body)"></p>
+<md-button class = "md-raised md-primary back_button" ng-click = 'hideRoom();'>Назад</md-button>

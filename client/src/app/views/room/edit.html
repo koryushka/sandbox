@@ -1,0 +1,14 @@
+<h1>Update post</h1>
+<form ng-submit="editing = false" >
+  <div layout-gt-sm="row">
+    <md-input-container class="md-block" flex-gt-sm>
+      <label>Title</label>
+      <input ng-model="room.title">
+    </md-input-container>
+  </div>
+  <md-input-container class="md-block">
+    <textarea ckeditor ng-model="room.body" rows = '200'></textarea>
+  </md-input-container>
+  <md-button class = "md-raised md-primary" ng-click = 'updatePost(room)' type = 'submit'>Обновить</md-button>
+  <md-button class = "md-raised" ng-click = 'editing = false;showEditForm(true);'>Отмена</md-button>
+</form>

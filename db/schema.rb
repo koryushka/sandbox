@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161023152457) do
+ActiveRecord::Schema.define(version: 20161127203825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "images", force: :cascade do |t|
+    t.string   "upload"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "post_id"
+    t.string   "link"
+    t.boolean  "is_banner",  default: false
+  end
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
@@ -67,7 +76,6 @@ ActiveRecord::Schema.define(version: 20161023152457) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "post_type_id"
-    t.string   "banner"
   end
 
   create_table "users", force: :cascade do |t|

@@ -4,7 +4,10 @@ class Api::PostsController < ApplicationController
     doorkeeper_authorize!
   end
   def index
-    @posts  = Post.eager_load(:post_type).where(post_types: {name: params[:scope]}).order(created_at: :desc)
+    @posts  = Post.eager_load(:post_type).includes(:images).where(post_types: {name: params[:scope]}).order(created_at: :desc)
+    # @posts = @posts.map do |e|
+    #   PostSerializer.new(e).attributes
+    # end
     render json: @posts
    end
 
@@ -39,6 +42,7 @@ class Api::PostsController < ApplicationController
    end
 
    def post_params
-     params.permit(:title, :body, :banner)
+    #  byebug
+     params.require(:post).permit(:title, :body)
    end
 end

@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   namespace :api do
     get 'welcome', to: 'welcome#index'
     get 'health', to: 'health#index'
-    resources :posts
+    resources :posts do
+      resources :images
+    end
+    resources :images, only: [:destroy, :update]
   end
 end
