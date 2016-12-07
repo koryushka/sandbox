@@ -1,5 +1,5 @@
 class Api::ImagesController < ApplicationController
-  before_action :set_post, except: :destroy
+  before_action :set_post, except: [:destroy, :update]
   before_action :set_image, only: [:destroy, :update]
 
   def create
@@ -9,7 +9,7 @@ class Api::ImagesController < ApplicationController
       response.headers['X-Frame-Options'] = 'ALLOWALL'
       # response.headers.delete('X-Frame-Options')
       reloaded_image = Image.find(image.id)
-      reloaded_image.update(link: reloaded_image.url)
+      reloaded_image.update(link: reloaded_image.url.gsub('?dl=0', '?raw=1'))
       render plain: reloaded_image.link
     else
       render json: {errors: image.errors.full_messages}

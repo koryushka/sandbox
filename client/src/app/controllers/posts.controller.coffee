@@ -113,8 +113,8 @@ angular.module 'sandbox'
       $scope.showRoom = false
 
     $scope.setAsBanner =(image)->
-      console.debug image
-      return Image.update({id: image.id, image: {is_banner: true}})
+      Image.update({id: image.id, image: {is_banner: true}}).$promise.then (data) ->
+        console.debug data.image
 
     # $scope.getContent = ->
     #   console.log 'Editor content:', $scope.tinymceModel
